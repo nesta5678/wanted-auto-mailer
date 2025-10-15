@@ -3,7 +3,7 @@ name: Automatic Email Sender
 on:
   schedule:
     # ✅ 수정됨: 한국 시간(KST) 17시 25분 (UTC 08:25)에 매일 실행됩니다.
-    - cron: '25 8 * * *' 
+    - cron: '44 8 * * *' 
   workflow_dispatch: # 수동 실행을 위한 설정
 
 jobs:
