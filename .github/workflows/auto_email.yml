@@ -2,7 +2,7 @@ name: Automatic Email Sender
 
 on:
   schedule:
-    - cron: '0 0 * * *' # 매일 UTC 00시에 실행
+- cron: '18 8 * * *' 
   workflow_dispatch: # 수동 실행을 위한 설정
 
 jobs:
