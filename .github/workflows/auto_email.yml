@@ -2,17 +2,17 @@ name: Automatic Email Sender
 
 on:
   schedule:
-- cron: '18 8 * * *' 
+    # ✅ 수정됨: 한국 시간(KST) 17시 25분 (UTC 08:25)에 매일 실행됩니다.
+    - cron: '25 8 * * *' 
   workflow_dispatch: # 수동 실행을 위한 설정
 
 jobs:
   send_report:
     runs-on: ubuntu-latest
     
-    # ⭐⭐ 권한 설정 추가: 이 설정이 있어야 로그 파일 커밋이 성공합니다. ⭐⭐
+    # ⭐⭐ 권한 설정: 로그 파일 커밋을 위해 필요합니다. ⭐⭐
     permissions:
       contents: write
-    # ⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐
 
     steps:
       # 1. 레포지토리 체크아웃
@@ -28,6 +28,7 @@ jobs:
       # 3. Python 스크립트 실행
       - name: Run Python script and Send Email
         env:
+          # GitHub Secret 'APP_SECRET'의 값을 환경 변수 'EMAIL_PASSWORD'에 할당
           EMAIL_PASSWORD: ${{ secrets.APP_SECRET }}
         run: python send_automatic_email.py
         
@@ -36,4 +37,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "자동 이메일 로그 업데이트 📝"
-          file_pattern: email_log.txt
+          file_pattern: email_log.txt 
