@@ -3,8 +3,7 @@
     "smtp_port": 587,
     "sender_email": "nesta09422@gmail.com",
     "receiver_email": "nesta09422@gmail.com",
-    "email_subject": "[GitHub Actions] 자동 이메일 테스트",  
-    "password": "aphw fuho lfff unyv" 
+    "email_subject": "[GitHub Actions] 자동 이메일 테스트"
+    "password": "aphw fuho lfff unyv"
 }
-
 
