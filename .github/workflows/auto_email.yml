@@ -19,17 +19,17 @@ jobs:
         with:
           python-version: '3.x'
 
-      # 3. Python 스크립트 실행
+      # 3. Python 스크립트 실행 (APP_SECRET 사용)
       - name: Run Python script and Send Email
         env:
-          # GitHub Secrets에 설정된 값을 Python 스크립트의 환경 변수(EMAIL_PASSWORD)로 주입합니다.
-          EMAIL_PASSWORD: ${{ secrets.SENDER_EMAIL_PASSWORD }}
+          # ✅ 수정된 부분: GitHub Secret 'APP_SECRET'의 값을 
+          # Python 스크립트가 사용하는 환경 변수 'EMAIL_PASSWORD'에 할당합니다.
+          EMAIL_PASSWORD: ${{ secrets.APP_SECRET }}
         run: python send_automatic_email.py
         
-      # 4. 결과 파일 커밋 (로그 파일 커밋 액션 수정 완료)
+      # 4. 결과 파일 커밋
       - name: Commit log file
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "자동 이메일 로그 업데이트 📝"
-          # ✅ 오류를 수정한 부분: 'files' 대신 'file_pattern' 사용
           file_pattern: email_log.txt
