@@ -24,10 +24,10 @@ def send_email(config, sender_password):
     if not config:
         return
 
-    # 환경 변수에서 SMTP 비밀번호 가져오기 (GitHub Secrets 사용 권장)
+    # 환경 변수에서 SMTP 비밀번호 가져오기 (GitHub Secrets 사용)
     if not sender_password:
-        print("오류: 발신자 비밀번호가 설정되지 않았습니다.")
-        return
+        print("오류: 발신자 비밀번호가 설정되지 않았습니다. 환경 변수 'EMAIL_PASSWORD'를 확인하세요.")
+        return False # 비밀번호가 없으면 False 반환
 
     # SMTP 서버 정보
     smtp_server = config['smtp_server']
@@ -52,12 +52,12 @@ def send_email(config, sender_password):
     # 메일 전송
     try:
         print(f"{smtp_server}:{smtp_port}에 연결 중...")
-        # SMTP_SSL을 사용하거나, SMTP + starttls를 사용
+        # Gmail의 경우 587 포트와 starttls를 사용
         with smtplib.SMTP(smtp_server, smtp_port) as server:
             server.starttls() # 보안 연결 시작
             server.login(sender_email, sender_password)
             server.sendmail(sender_email, receiver_email, message.as_string())
-        print("이메일이 성공적으로 발송되었습니다!")
+        print("이메일이 성공적으로 발송되었습니다! 🚀")
         return True
     except Exception as e:
         print(f"오류 발생: 이메일 전송 실패 - {e}")
@@ -79,8 +79,7 @@ if __name__ == "__main__":
     # 결과 저장 파일 경로
     RESULT_FILE = 'email_log.txt'
     
-    # 환경 변수에서 비밀번호 로드 (GitHub Actions의 Secrets를 통해 주입될 예정)
-    # 이메일 서비스 제공업체에 따라 "앱 비밀번호"를 사용해야 할 수 있습니다.
+    # 환경 변수에서 비밀번호 로드 (GitHub Actions의 Secrets를 통해 주입)
     SENDER_PASSWORD = os.getenv('EMAIL_PASSWORD') 
     
     # 1. 설정 로드
