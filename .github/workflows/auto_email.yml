@@ -1,0 +1,41 @@
+name: Automatic Email Sender
+
+# 원하는 이벤트에 따라 트리거 설정 (예: 매일 09:00 UTC에 실행)
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  # 수동 실행을 위한 설정
+  workflow_dispatch:
+
+jobs:
+  send_report:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. 레포지토리 체크아웃
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Python 환경 설정
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      # 3. 필요한 라이브러리 설치 (표준 라이브러리만 사용하므로 생략 가능, 외부 라이브러리 사용 시 필요)
+      - name: Install dependencies
+        run: |
+          # pip install some_library
+
+      # 4. Python 스크립트 실행
+      - name: Run Python script and Send Email
+        # 환경 변수(Secrets)를 스크립트에 전달
+        env:
+          EMAIL_PASSWORD: ${{ secrets.SENDER_EMAIL_PASSWORD }}
+        run: python send_automatic_email.py
+        
+      # 5. 결과 파일 커밋 (선택 사항: 로그 파일을 레포지토리에 저장하고 싶을 경우)
+      - name: Commit log file
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "자동 이메일 로그 업데이트"
+          files: email_log.txt
