@@ -1,11 +1,9 @@
 name: Automatic Email Sender
 
-# 원하는 이벤트에 따라 트리거 설정 (예: 매일 09:00 UTC에 실행)
 on:
   schedule:
-    - cron: '0 0 * * *'
-  # 수동 실행을 위한 설정
-  workflow_dispatch:
+    - cron: '0 0 * * *' # 매일 UTC 00시에 실행
+  workflow_dispatch: # 수동 실행을 위한 설정
 
 jobs:
   send_report:
@@ -21,21 +19,17 @@ jobs:
         with:
           python-version: '3.x'
 
-      # 3. 필요한 라이브러리 설치 (표준 라이브러리만 사용하므로 생략 가능, 외부 라이브러리 사용 시 필요)
-      - name: Install dependencies
-        run: |
-          # pip install some_library
-
-      # 4. Python 스크립트 실행
+      # 3. Python 스크립트 실행
       - name: Run Python script and Send Email
-        # 환경 변수(Secrets)를 스크립트에 전달
         env:
+          # GitHub Secrets에 설정된 값을 Python 스크립트의 환경 변수(EMAIL_PASSWORD)로 주입합니다.
           EMAIL_PASSWORD: ${{ secrets.SENDER_EMAIL_PASSWORD }}
         run: python send_automatic_email.py
         
-      # 5. 결과 파일 커밋 (선택 사항: 로그 파일을 레포지토리에 저장하고 싶을 경우)
+      # 4. 결과 파일 커밋 (로그 파일 커밋 액션 수정 완료)
       - name: Commit log file
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "자동 이메일 로그 업데이트"
-          files: email_log.txt
+          commit_message: "자동 이메일 로그 업데이트 📝"
+          # ✅ 오류를 수정한 부분: 'files' 대신 'file_pattern' 사용
+          file_pattern: email_log.txt
