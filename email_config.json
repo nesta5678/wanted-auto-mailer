@@ -1,0 +1,8 @@
+{
+    "smtp_server": "smtp.gmail.com", 
+    "smtp_port": 587,
+    "sender_email": "nesta09422@gmail.com",
+    "receiver_email": "ldi16@daum.net",
+    "email_subject": "[GitHub Actions] 자동 이메일 테스트"
+    "password": "aphw fuho lfff unyv"
+}
