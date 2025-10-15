@@ -1,1 +1,1 @@
-# wanted-auto-mailer2
+# wanted-auto-mailer
