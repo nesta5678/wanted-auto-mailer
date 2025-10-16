@@ -38,3 +38,23 @@ jobs:
         with:
           commit_message: "자동 이메일 로그 업데이트 📝"
           file_pattern: email_log.txt 
+
+          name: Wanted Auto Mailer
+on:
+  schedule:
+    - cron: "0 23 * * *"  # 한국시간 오전 8시 (UTC 기준 23시)
+  workflow_dispatch:      # 수동 실행도 가능
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
